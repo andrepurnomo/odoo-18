@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_wizard_tolak_pinjaman_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.tolak.pinjaman.form</field>
+        <field name="model">koperasi.wizard.tolak.pinjaman</field>
+        <field name="arch" type="xml">
+            <form string="Tolak Pinjaman">
+                <sheet>
+                    <group>
+                        <field name="pinjaman_id" invisible="1" />
+                        <field name="alasan_penolakan" required="1" />
+                    </group>
+                    <footer>
+                        <button name="action_tolak" string="Tolak Pinjaman" type="object"
+                            class="btn-primary" />
+                        <button string="Batal" class="btn-secondary" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

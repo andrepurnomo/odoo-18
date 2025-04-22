@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences -->
+        <record id="seq_koperasi_anggota" model="ir.sequence">
+            <field name="name">Nomor Anggota</field>
+            <field name="code">koperasi.anggota</field>
+            <field name="prefix">ANG/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False" />
+        </record>
+
+        <record id="seq_koperasi_transaksi_simpanan" model="ir.sequence">
+            <field name="name">ID Transaksi Simpanan</field>
+            <field name="code">koperasi.transaksi.simpanan</field>
+            <field name="prefix">TRX/%(year)s/</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False" />
+        </record>
+
+        <record id="seq_koperasi_pinjaman" model="ir.sequence">
+            <field name="name">Kode Pinjaman</field>
+            <field name="code">koperasi.pinjaman</field>
+            <field name="prefix">PJM/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False" />
+        </record>
+
+        <!-- Jenis Simpanan Default -->
+        <record id="simpanan_pokok" model="koperasi.jenis.simpanan">
+            <field name="name">Simpanan Pokok</field>
+            <field name="kode">pokok</field>
+            <field name="is_required">True</field>
+            <field name="min_amount">100000</field>
+            <field name="deskripsi">Simpanan pokok yang wajib dibayarkan sekali saat pendaftaran
+                anggota baru</field>
+        </record>
+
+        <record id="simpanan_wajib" model="koperasi.jenis.simpanan">
+            <field name="name">Simpanan Wajib</field>
+            <field name="kode">wajib</field>
+            <field name="is_required">True</field>
+            <field name="min_amount">50000</field>
+            <field name="deskripsi">Simpanan wajib yang harus dibayarkan oleh setiap anggota setiap
+                bulan</field>
+        </record>
+
+        <record id="simpanan_sukarela" model="koperasi.jenis.simpanan">
+            <field name="name">Simpanan Sukarela</field>
+            <field name="kode">sukarela</field>
+            <field name="is_required">False</field>
+            <field name="min_amount">10000</field>
+            <field name="deskripsi">Simpanan sukarela yang dapat disimpan atau ditarik oleh anggota
+                kapan saja</field>
+        </record>
+    </data>
+</odoo>

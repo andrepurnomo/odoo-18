@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_koperasi_root"
+        name="Koperasi"
+        web_icon="koperasi,static/description/icon.png"
+        sequence="10"
+        groups="base.group_user,base.group_partner_manager" />
+
+    <!-- Dashboard Menu -->
+    <menuitem id="menu_koperasi_dashboard"
+        name="Dashboard"
+        parent="menu_koperasi_root"
+        action="action_koperasi_dashboard"
+        sequence="1" />
+
+    <!-- Anggota Menu -->
+    <menuitem id="menu_koperasi_anggota"
+        name="Anggota"
+        parent="menu_koperasi_root"
+        sequence="10" />
+
+    <menuitem id="menu_koperasi_anggota_list"
+        name="Daftar Anggota"
+        parent="menu_koperasi_anggota"
+        action="action_koperasi_anggota"
+        sequence="1" />
+
+    <!-- Simpanan Menu -->
+    <menuitem id="menu_koperasi_simpanan"
+        name="Simpanan"
+        parent="menu_koperasi_root"
+        sequence="20" />
+
+    <menuitem id="menu_koperasi_simpanan_list"
+        name="Daftar Simpanan"
+        parent="menu_koperasi_simpanan"
+        action="action_koperasi_simpanan"
+        sequence="1" />
+
+    <menuitem id="menu_koperasi_transaksi_simpanan"
+        name="Transaksi Simpanan"
+        parent="menu_koperasi_simpanan"
+        action="action_koperasi_transaksi_simpanan"
+        sequence="2" />
+
+    <menuitem id="menu_koperasi_jenis_simpanan"
+        name="Jenis Simpanan"
+        parent="menu_koperasi_simpanan"
+        action="action_koperasi_jenis_simpanan"
+        sequence="3" />
+
+    <!-- Pinjaman Menu -->
+    <menuitem id="menu_koperasi_pinjaman"
+        name="Pinjaman"
+        parent="menu_koperasi_root"
+        sequence="30" />
+
+    <menuitem id="menu_koperasi_pinjaman_list"
+        name="Daftar Pinjaman"
+        parent="menu_koperasi_pinjaman"
+        action="action_koperasi_pinjaman"
+        sequence="1" />
+
+    <menuitem id="menu_koperasi_angsuran_pinjaman"
+        name="Angsuran Pinjaman"
+        parent="menu_koperasi_pinjaman"
+        action="action_koperasi_angsuran_pinjaman"
+        sequence="2" />
+
+    <!-- SHU Menu -->
+    <menuitem id="menu_koperasi_shu"
+        name="SHU"
+        parent="menu_koperasi_root"
+        sequence="40" />
+
+    <menuitem id="menu_koperasi_hitung_shu"
+        name="Hitung SHU"
+        parent="menu_koperasi_shu"
+        action="action_koperasi_hitung_shu"
+        sequence="1" />
+
+    <!-- Laporan Menu -->
+    <menuitem id="menu_koperasi_laporan"
+        name="Laporan"
+        parent="menu_koperasi_root"
+        sequence="50" />
+
+    <menuitem id="menu_koperasi_laporan_anggota"
+        name="Laporan Anggota"
+        parent="menu_koperasi_laporan"
+        action="action_koperasi_laporan_anggota"
+        sequence="1" />
+
+    <menuitem id="menu_koperasi_laporan_simpanan"
+        name="Laporan Simpanan"
+        parent="menu_koperasi_laporan"
+        action="action_koperasi_laporan_simpanan"
+        sequence="2" />
+
+    <menuitem id="menu_koperasi_laporan_pinjaman"
+        name="Laporan Pinjaman"
+        parent="menu_koperasi_laporan"
+        action="action_koperasi_laporan_pinjaman"
+        sequence="3" />
+
+    <menuitem id="menu_koperasi_laporan_tunggakan"
+        name="Laporan Tunggakan"
+        parent="menu_koperasi_laporan"
+        action="action_koperasi_laporan_tunggakan"
+        sequence="4" />
+
+    <menuitem id="menu_koperasi_laporan_shu"
+        name="Laporan SHU"
+        parent="menu_koperasi_laporan"
+        action="action_koperasi_laporan_shu"
+        sequence="5" />
+
+    <!-- Konfigurasi Menu -->
+    <menuitem id="menu_koperasi_konfigurasi"
+        name="Konfigurasi"
+        parent="menu_koperasi_root"
+        groups="base.group_system"
+        sequence="100" />
+</odoo>

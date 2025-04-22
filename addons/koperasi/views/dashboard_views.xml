@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_dashboard" model="ir.ui.view">
+        <field name="name">koperasi.dashboard.form</field>
+        <field name="model">koperasi.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard Koperasi" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Dashboard Koperasi</h1>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="col-lg-12 mt16">
+                                        <h2>Ringkasan Anggota</h2>
+                                        <div class="row mt16">
+                                            <div class="col-6 o_kanban_primary_left">
+                                                <button name="action_view_anggota_aktif"
+                                                    type="object" class="oe_stat_button">
+                                                    <field name="total_anggota_aktif"
+                                                        widget="statinfo" string="Anggota Aktif" />
+                                                </button>
+                                            </div>
+                                            <div class="col-6 o_kanban_primary_left">
+                                                <button name="action_view_anggota_baru"
+                                                    type="object" class="oe_stat_button">
+                                                    <field name="total_anggota_baru_bulan_ini"
+                                                        widget="statinfo"
+                                                        string="Anggota Baru Bulan Ini" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="col-lg-12 mt16">
+                                        <h2>Simpanan</h2>
+                                        <div class="row mt16">
+                                            <div class="col-lg-12">
+                                                <button name="action_view_simpanan" type="object"
+                                                    class="oe_stat_button">
+                                                    <field name="total_simpanan" widget="statinfo"
+                                                        string="Total Simpanan"
+                                                        options="{'digits': [16, 0]}" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mt16">
+                                            <div class="col-4">
+                                                <field name="total_simpanan_pokok" widget="monetary"
+                                                    options="{'currency_field': 'currency_id'}"
+                                                    readonly="1" />
+                                                <div class="text-muted">Simpanan Pokok</div>
+                                            </div>
+                                            <div class="col-4">
+                                                <field name="total_simpanan_wajib" widget="monetary"
+                                                    options="{'currency_field': 'currency_id'}"
+                                                    readonly="1" />
+                                                <div class="text-muted">Simpanan Wajib</div>
+                                            </div>
+                                            <div class="col-4">
+                                                <field name="total_simpanan_sukarela"
+                                                    widget="monetary"
+                                                    options="{'currency_field': 'currency_id'}"
+                                                    readonly="1" />
+                                                <div class="text-muted">Simpanan Sukarela</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="col-lg-12 mt16">
+                                        <h2>Pinjaman</h2>
+                                        <div class="row mt16">
+                                            <div class="col-4">
+                                                <button name="action_view_pinjaman_aktif"
+                                                    type="object" class="oe_stat_button">
+                                                    <field name="total_pinjaman_aktif_count"
+                                                        widget="statinfo" string="Pinjaman Aktif" />
+                                                </button>
+                                            </div>
+                                            <div class="col-4">
+                                                <button name="action_view_pinjaman_pengajuan"
+                                                    type="object" class="oe_stat_button">
+                                                    <field name="total_pinjaman_pengajuan_count"
+                                                        widget="statinfo" string="Pengajuan" />
+                                                </button>
+                                            </div>
+                                            <div class="col-4">
+                                                <button name="action_view_pinjaman_menunggak"
+                                                    type="object" class="oe_stat_button">
+                                                    <field name="total_pinjaman_menunggak_count"
+                                                        widget="statinfo" string="Menunggak" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mt16">
+                                            <div class="col-6">
+                                                <field name="total_pinjaman_aktif" widget="monetary"
+                                                    options="{'currency_field': 'currency_id'}"
+                                                    readonly="1" />
+                                                <div class="text-muted">Total Pinjaman Aktif</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <field name="total_pendapatan_bunga_tahun_ini"
+                                                    widget="monetary"
+                                                    options="{'currency_field': 'currency_id'}"
+                                                    readonly="1" />
+                                                <div class="text-muted">Pendapatan Bunga Tahun Ini</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="col-lg-12 mt16">
+                                        <h2>Angsuran</h2>
+                                        <div class="row mt16">
+                                            <div class="col-6">
+                                                <button
+                                                    name="action_view_angsuran_jatuh_tempo_hari_ini"
+                                                    type="object" class="oe_stat_button">
+                                                    <field
+                                                        name="total_angsuran_jatuh_tempo_hari_ini_count"
+                                                        widget="statinfo"
+                                                        string="Jatuh Tempo Hari Ini" />
+                                                </button>
+                                            </div>
+                                            <div class="col-6">
+                                                <button name="action_view_angsuran_telat"
+                                                    type="object" class="oe_stat_button">
+                                                    <field name="total_angsuran_telat_count"
+                                                        widget="statinfo" string="Telah Jatuh Tempo" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mt16">
+                                            <div class="col-6">
+                                                <field name="total_angsuran_jatuh_tempo_hari_ini"
+                                                    widget="monetary"
+                                                    options="{'currency_field': 'currency_id'}"
+                                                    readonly="1" />
+                                                <div class="text-muted">Nilai Angsuran Jatuh Tempo
+                                                    Hari Ini</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <field name="total_angsuran_telat" widget="monetary"
+                                                    options="{'currency_field': 'currency_id'}"
+                                                    readonly="1" />
+                                                <div class="text-muted">Nilai Tunggakan</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <div class="row">
+                                    <div class="col-lg-12 mt16">
+                                        <h2>Laporan Cepat</h2>
+                                        <div class="row mt16">
+                                            <div class="col-3">
+                                                <button name="action_laporan_shu" type="object"
+                                                    class="btn btn-primary">
+                                                    <span>Laporan SHU</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-3">
+                                                <button name="action_laporan_simpanan" type="object"
+                                                    class="btn btn-primary">
+                                                    <span>Laporan Simpanan</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-3">
+                                                <button name="action_laporan_pinjaman" type="object"
+                                                    class="btn btn-primary">
+                                                    <span>Laporan Pinjaman</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-3">
+                                                <button name="action_laporan_tunggakan"
+                                                    type="object" class="btn btn-primary">
+                                                    <span>Laporan Tunggakan</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <field name="currency_id" invisible="1" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_koperasi_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">koperasi.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">main</field>
+        <field name="res_id">1</field>
+    </record>
+</odoo>

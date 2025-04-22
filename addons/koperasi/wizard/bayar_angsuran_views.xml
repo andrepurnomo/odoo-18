@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_wizard_bayar_angsuran_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.bayar.angsuran.form</field>
+        <field name="model">koperasi.wizard.bayar.angsuran</field>
+        <field name="arch" type="xml">
+            <form string="Bayar Angsuran">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="angsuran_id" invisible="1" />
+                            <field name="anggota_id" readonly="1" />
+                            <field name="pinjaman_id" readonly="1" />
+                            <field name="tanggal_jatuh_tempo" readonly="1" />
+                            <field name="total_angsuran" widget="monetary" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="tanggal_pembayaran" />
+                            <field name="denda" widget="monetary" />
+                            <field name="jumlah_dibayar" widget="monetary" />
+                            <field name="metode_pembayaran" />
+                            <field name="simpanan_sukarela_id"
+                                invisible="metode_pembayaran != 'potong_simpanan'"
+                                required="metode_pembayaran == 'potong_simpanan'" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="keterangan" />
+                    </group>
+                    <footer>
+                        <button name="action_bayar" string="Bayar" type="object" class="btn-primary" />
+                        <button string="Batal" class="btn-secondary" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

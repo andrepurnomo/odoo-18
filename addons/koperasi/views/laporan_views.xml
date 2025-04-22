@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Laporan Anggota Action -->
+    <record id="action_koperasi_laporan_anggota" model="ir.actions.act_window">
+        <field name="name">Laporan Anggota</field>
+        <field name="res_model">koperasi.anggota</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_by_status': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada data anggota
+            </p>
+        </field>
+    </record>
+
+    <!-- Laporan Simpanan Action -->
+    <record id="action_koperasi_laporan_simpanan" model="ir.actions.act_window">
+        <field name="name">Laporan Simpanan</field>
+        <field name="res_model">koperasi.simpanan</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_by_jenis': 1,
+            'search_default_group_by_anggota': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada data simpanan
+            </p>
+        </field>
+    </record>
+
+    <!-- Laporan Pinjaman Action -->
+    <record id="action_koperasi_laporan_pinjaman" model="ir.actions.act_window">
+        <field name="name">Laporan Pinjaman</field>
+        <field name="res_model">koperasi.pinjaman</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('status_pinjaman', 'in', ['aktif', 'menunggak', 'lunas'])]</field>
+        <field name="context">{'search_default_group_by_status': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada data pinjaman
+            </p>
+        </field>
+    </record>
+
+    <!-- Laporan Tunggakan Action -->
+    <record id="action_koperasi_laporan_tunggakan" model="ir.actions.act_window">
+        <field name="name">Laporan Tunggakan</field>
+        <field name="res_model">koperasi.angsuran.pinjaman</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('tanggal_jatuh_tempo', '&lt;', context_today()),
+            ('status_pembayaran', '=', 'belum_bayar')]</field>
+        <field name="context">{'search_default_group_by_anggota': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tidak ada tunggakan
+            </p>
+        </field>
+    </record>
+
+    <!-- Laporan SHU Action -->
+    <record id="action_koperasi_laporan_shu" model="ir.actions.act_window">
+        <field name="name">Laporan SHU</field>
+        <field name="res_model">koperasi.laporan.shu</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada laporan SHU yang dibuat
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Example Anggota (Members) -->
+        <record id="anggota_1" model="koperasi.anggota">
+            <field name="nomor_anggota">ANG/2023/0001</field>
+            <field name="name">Budi Santoso</field>
+            <field name="nik">3302141201860001</field>
+            <field name="alamat">Jl. Pahlawan No. 123, Jakarta Selatan</field>
+            <field name="telepon">081234567890</field>
+            <field name="email">budi.santoso@example.com</field>
+            <field name="tanggal_bergabung"
+                eval="(DateTime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')" />
+            <field name="status_keanggotaan">aktif</field>
+        </record>
+
+        <record id="anggota_2" model="koperasi.anggota">
+            <field name="nomor_anggota">ANG/2023/0002</field>
+            <field name="name">Siti Rahayu</field>
+            <field name="nik">3302141201900002</field>
+            <field name="alamat">Jl. Merdeka No. 45, Jakarta Pusat</field>
+            <field name="telepon">082345678901</field>
+            <field name="email">siti.rahayu@example.com</field>
+            <field name="tanggal_bergabung"
+                eval="(DateTime.today() - relativedelta(months=5)).strftime('%Y-%m-%d')" />
+            <field name="status_keanggotaan">aktif</field>
+        </record>
+
+        <record id="anggota_3" model="koperasi.anggota">
+            <field name="nomor_anggota">ANG/2023/0003</field>
+            <field name="name">Ahmad Fauzi</field>
+            <field name="nik">3302141201880003</field>
+            <field name="alamat">Jl. Gatot Subroto No. 78, Jakarta Timur</field>
+            <field name="telepon">083456789012</field>
+            <field name="email">ahmad.fauzi@example.com</field>
+            <field name="tanggal_bergabung"
+                eval="(DateTime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')" />
+            <field name="status_keanggotaan">aktif</field>
+        </record>
+
+        <record id="anggota_4" model="koperasi.anggota">
+            <field name="nomor_anggota">ANG/2023/0004</field>
+            <field name="name">Dewi Lestari</field>
+            <field name="nik">3302141201950004</field>
+            <field name="alamat">Jl. Sudirman No. 99, Jakarta Barat</field>
+            <field name="telepon">084567890123</field>
+            <field name="email">dewi.lestari@example.com</field>
+            <field name="tanggal_bergabung"
+                eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d')" />
+            <field name="status_keanggotaan">aktif</field>
+        </record>
+
+        <!-- Example Simpanan (Savings) for each member -->
+        <!-- Simpanan for Budi Santoso -->
+        <record id="simpanan_pokok_budi" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_1" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_pokok" />
+            <field name="saldo">100000</field>
+        </record>
+
+        <record id="simpanan_wajib_budi" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_1" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_wajib" />
+            <field name="saldo">300000</field>
+        </record>
+
+        <record id="simpanan_sukarela_budi" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_1" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_sukarela" />
+            <field name="saldo">500000</field>
+        </record>
+
+        <!-- Simpanan for Siti Rahayu -->
+        <record id="simpanan_pokok_siti" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_2" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_pokok" />
+            <field name="saldo">100000</field>
+        </record>
+
+        <record id="simpanan_wajib_siti" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_2" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_wajib" />
+            <field name="saldo">250000</field>
+        </record>
+
+        <record id="simpanan_sukarela_siti" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_2" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_sukarela" />
+            <field name="saldo">750000</field>
+        </record>
+
+        <!-- Simpanan for other members -->
+        <record id="simpanan_pokok_ahmad" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_3" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_pokok" />
+            <field name="saldo">100000</field>
+        </record>
+
+        <record id="simpanan_wajib_ahmad" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_3" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_wajib" />
+            <field name="saldo">150000</field>
+        </record>
+
+        <record id="simpanan_pokok_dewi" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_4" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_pokok" />
+            <field name="saldo">100000</field>
+        </record>
+
+        <record id="simpanan_wajib_dewi" model="koperasi.simpanan">
+            <field name="anggota_id" ref="anggota_4" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_wajib" />
+            <field name="saldo">50000</field>
+        </record>
+
+        <!-- Example Transaksi Simpanan (Savings Transactions) -->
+        <record id="transaksi_1" model="koperasi.transaksi.simpanan">
+            <field name="name">TRX/2023/000001</field>
+            <field name="anggota_id" ref="anggota_1" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_pokok" />
+            <field name="tipe_transaksi">pendaftaran_pokok</field>
+            <field name="jumlah">100000</field>
+            <field name="tanggal_transaksi"
+                eval="(DateTime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')" />
+            <field name="keterangan">Pendaftaran anggota baru</field>
+            <field name="state">confirmed</field>
+            <field name="saldo_sebelum">0</field>
+            <field name="saldo_sesudah">100000</field>
+        </record>
+
+        <record id="transaksi_2" model="koperasi.transaksi.simpanan">
+            <field name="name">TRX/2023/000002</field>
+            <field name="anggota_id" ref="anggota_1" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_wajib" />
+            <field name="tipe_transaksi">potongan_wajib</field>
+            <field name="jumlah">50000</field>
+            <field name="tanggal_transaksi"
+                eval="(DateTime.today() - relativedelta(months=6)).strftime('%Y-%m-%d')" />
+            <field name="keterangan">Simpanan wajib bulan pertama</field>
+            <field name="state">confirmed</field>
+            <field name="saldo_sebelum">0</field>
+            <field name="saldo_sesudah">50000</field>
+        </record>
+
+        <record id="transaksi_3" model="koperasi.transaksi.simpanan">
+            <field name="name">TRX/2023/000003</field>
+            <field name="anggota_id" ref="anggota_1" />
+            <field name="jenis_simpanan_id" ref="koperasi.simpanan_sukarela" />
+            <field name="tipe_transaksi">setor</field>
+            <field name="jumlah">500000</field>
+            <field name="tanggal_transaksi"
+                eval="(DateTime.today() - relativedelta(months=5)).strftime('%Y-%m-%d')" />
+            <field name="keterangan">Setoran sukarela</field>
+            <field name="state">confirmed</field>
+            <field name="saldo_sebelum">0</field>
+            <field name="saldo_sesudah">500000</field>
+        </record>
+
+        <!-- Example Pinjaman (Loans) -->
+        <record id="pinjaman_1" model="koperasi.pinjaman">
+            <field name="name">PJM/2023/00001</field>
+            <field name="anggota_id" ref="anggota_1" />
+            <field name="jumlah_pokok">5000000</field>
+            <field name="tenor_bulan">10</field>
+            <field name="bunga_per_bulan">1.0</field>
+            <field name="tanggal_pengajuan"
+                eval="(DateTime.today() - relativedelta(months=4)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_persetujuan"
+                eval="(DateTime.today() - relativedelta(months=4, days=-2)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_mulai_angsuran"
+                eval="(DateTime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')" />
+            <field name="status_pinjaman">aktif</field>
+            <field name="keterangan">Pinjaman untuk renovasi rumah</field>
+        </record>
+
+        <record id="pinjaman_2" model="koperasi.pinjaman">
+            <field name="name">PJM/2023/00002</field>
+            <field name="anggota_id" ref="anggota_2" />
+            <field name="jumlah_pokok">3000000</field>
+            <field name="tenor_bulan">6</field>
+            <field name="bunga_per_bulan">1.0</field>
+            <field name="tanggal_pengajuan"
+                eval="(DateTime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_persetujuan"
+                eval="(DateTime.today() - relativedelta(months=3, days=-1)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_mulai_angsuran"
+                eval="(DateTime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')" />
+            <field name="status_pinjaman">aktif</field>
+            <field name="keterangan">Pinjaman untuk modal usaha</field>
+        </record>
+
+        <record id="pinjaman_3" model="koperasi.pinjaman">
+            <field name="name">PJM/2023/00003</field>
+            <field name="anggota_id" ref="anggota_3" />
+            <field name="jumlah_pokok">2000000</field>
+            <field name="tenor_bulan">4</field>
+            <field name="bunga_per_bulan">1.0</field>
+            <field name="tanggal_pengajuan"
+                eval="(DateTime.today() - relativedelta(days=15)).strftime('%Y-%m-%d')" />
+            <field name="status_pinjaman">pengajuan</field>
+            <field name="keterangan">Pinjaman untuk biaya pendidikan</field>
+        </record>
+
+        <!-- Example Angsuran Pinjaman (Loan Installments) for pinjaman_1 -->
+        <record id="angsuran_1_1" model="koperasi.angsuran.pinjaman">
+            <field name="pinjaman_id" ref="pinjaman_1" />
+            <field name="angsuran_ke">1</field>
+            <field name="jumlah_pokok_angsuran">500000</field>
+            <field name="jumlah_bunga_angsuran">50000</field>
+            <field name="tanggal_jatuh_tempo"
+                eval="(DateTime.today() - relativedelta(months=3)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_pembayaran"
+                eval="(DateTime.today() - relativedelta(months=3, days=-2)).strftime('%Y-%m-%d')" />
+            <field name="jumlah_dibayar">550000</field>
+            <field name="status_pembayaran">sudah_bayar</field>
+        </record>
+
+        <record id="angsuran_1_2" model="koperasi.angsuran.pinjaman">
+            <field name="pinjaman_id" ref="pinjaman_1" />
+            <field name="angsuran_ke">2</field>
+            <field name="jumlah_pokok_angsuran">500000</field>
+            <field name="jumlah_bunga_angsuran">50000</field>
+            <field name="tanggal_jatuh_tempo"
+                eval="(DateTime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_pembayaran"
+                eval="(DateTime.today() - relativedelta(months=2, days=-1)).strftime('%Y-%m-%d')" />
+            <field name="jumlah_dibayar">550000</field>
+            <field name="status_pembayaran">sudah_bayar</field>
+        </record>
+
+        <record id="angsuran_1_3" model="koperasi.angsuran.pinjaman">
+            <field name="pinjaman_id" ref="pinjaman_1" />
+            <field name="angsuran_ke">3</field>
+            <field name="jumlah_pokok_angsuran">500000</field>
+            <field name="jumlah_bunga_angsuran">50000</field>
+            <field name="tanggal_jatuh_tempo"
+                eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_pembayaran"
+                eval="(DateTime.today() - relativedelta(months=1, days=-3)).strftime('%Y-%m-%d')" />
+            <field name="jumlah_dibayar">550000</field>
+            <field name="status_pembayaran">sudah_bayar</field>
+        </record>
+
+        <record id="angsuran_1_4" model="koperasi.angsuran.pinjaman">
+            <field name="pinjaman_id" ref="pinjaman_1" />
+            <field name="angsuran_ke">4</field>
+            <field name="jumlah_pokok_angsuran">500000</field>
+            <field name="jumlah_bunga_angsuran">50000</field>
+            <field name="tanggal_jatuh_tempo" eval="DateTime.today().strftime('%Y-%m-%d')" />
+            <field name="status_pembayaran">belum_bayar</field>
+        </record>
+
+        <!-- Example Angsuran Pinjaman (Loan Installments) for pinjaman_2 -->
+        <record id="angsuran_2_1" model="koperasi.angsuran.pinjaman">
+            <field name="pinjaman_id" ref="pinjaman_2" />
+            <field name="angsuran_ke">1</field>
+            <field name="jumlah_pokok_angsuran">500000</field>
+            <field name="jumlah_bunga_angsuran">30000</field>
+            <field name="tanggal_jatuh_tempo"
+                eval="(DateTime.today() - relativedelta(months=2)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_pembayaran"
+                eval="(DateTime.today() - relativedelta(months=2, days=-5)).strftime('%Y-%m-%d')" />
+            <field name="jumlah_dibayar">530000</field>
+            <field name="status_pembayaran">sudah_bayar</field>
+        </record>
+
+        <record id="angsuran_2_2" model="koperasi.angsuran.pinjaman">
+            <field name="pinjaman_id" ref="pinjaman_2" />
+            <field name="angsuran_ke">2</field>
+            <field name="jumlah_pokok_angsuran">500000</field>
+            <field name="jumlah_bunga_angsuran">30000</field>
+            <field name="tanggal_jatuh_tempo"
+                eval="(DateTime.today() - relativedelta(months=1)).strftime('%Y-%m-%d')" />
+            <field name="tanggal_pembayaran"
+                eval="(DateTime.today() - relativedelta(months=1, days=-2)).strftime('%Y-%m-%d')" />
+            <field name="jumlah_dibayar">530000</field>
+            <field name="status_pembayaran">sudah_bayar</field>
+        </record>
+
+        <record id="angsuran_2_3" model="koperasi.angsuran.pinjaman">
+            <field name="pinjaman_id" ref="pinjaman_2" />
+            <field name="angsuran_ke">3</field>
+            <field name="jumlah_pokok_angsuran">500000</field>
+            <field name="jumlah_bunga_angsuran">30000</field>
+            <field name="tanggal_jatuh_tempo" eval="DateTime.today().strftime('%Y-%m-%d')" />
+            <field name="status_pembayaran">belum_bayar</field>
+        </record>
+    </data>
+</odoo>

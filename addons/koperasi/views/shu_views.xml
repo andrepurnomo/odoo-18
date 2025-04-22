@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_hitung_shu_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.hitung.shu.form</field>
+        <field name="model">koperasi.wizard.hitung.shu</field>
+        <field name="arch" type="xml">
+            <form string="Hitung SHU">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tahun_buku" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="total_pendapatan_bunga_diterima" widget="monetary" />
+                            <field name="total_pendapatan_bunga_akan_masuk" widget="monetary" />
+                            <field name="total_pendapatan_bunga" widget="monetary" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_print_laporan_shu" string="Print Laporan SHU"
+                            type="object" class="btn-primary" />
+                        <button string="Batal" class="btn-secondary" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_koperasi_hitung_shu" model="ir.actions.act_window">
+        <field name="name">Hitung SHU</field>
+        <field name="res_model">koperasi.wizard.hitung.shu</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

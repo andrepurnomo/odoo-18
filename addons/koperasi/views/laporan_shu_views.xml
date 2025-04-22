@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_laporan_shu_form" model="ir.ui.view">
+        <field name="name">koperasi.laporan.shu.form</field>
+        <field name="model">koperasi.laporan.shu</field>
+        <field name="arch" type="xml">
+            <form string="Laporan SHU">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tahun_buku" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="total_pendapatan_bunga_diterima" widget="monetary" />
+                            <field name="total_pendapatan_bunga_akan_masuk" widget="monetary" />
+                            <field name="total_pendapatan_bunga" widget="monetary" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

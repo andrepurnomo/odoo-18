@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_wizard_mulai_angsuran_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.mulai.angsuran.form</field>
+        <field name="model">koperasi.wizard.mulai.angsuran</field>
+        <field name="arch" type="xml">
+            <form string="Mulai Angsuran">
+                <sheet>
+                    <group>
+                        <field name="pinjaman_id" invisible="1" />
+                        <field name="tanggal_mulai_angsuran" required="1" />
+                    </group>
+                    <footer>
+                        <button name="action_set_mulai_angsuran" string="Mulai Angsuran"
+                            type="object" class="btn-primary" />
+                        <button string="Batal" class="btn-secondary" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

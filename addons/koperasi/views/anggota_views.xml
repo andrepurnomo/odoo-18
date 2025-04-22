@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Anggota Form View -->
+    <record id="view_koperasi_anggota_form" model="ir.ui.view">
+        <field name="name">koperasi.anggota.form</field>
+        <field name="model">koperasi.anggota</field>
+        <field name="arch" type="xml">
+            <form string="Anggota Koperasi">
+                <header>
+                    <button name="action_keluarkan_anggota" string="Keluarkan Anggota" type="object"
+                        class="oe_highlight"
+                        invisible="status_keanggotaan == 'non_aktif'" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nomor_anggota" placeholder="Nomor Anggota" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="nik" required="1" />
+                            <field name="telepon" />
+                            <field name="email" />
+                        </group>
+                        <group>
+                            <field name="tanggal_bergabung" />
+                            <field name="status_keanggotaan" />
+                            <field name="tanggal_keluar"
+                                invisible="status_keanggotaan != 'non_aktif'"
+                                required="status_keanggotaan == 'non_aktif'" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Alamat">
+                            <field name="alamat" />
+                        </page>
+                        <page string="Dashboard" name="dashboard">
+                            <group>
+                                <group string="Simpanan">
+                                    <field name="total_simpanan_pokok" widget="monetary" />
+                                    <field name="total_simpanan_wajib" widget="monetary" />
+                                    <field name="total_simpanan_sukarela" widget="monetary" />
+                                    <button name="action_lihat_simpanan" string="Lihat Simpanan"
+                                        type="object" class="oe_link" />
+                                </group>
+                                <group string="Pinjaman">
+                                    <field name="pinjaman_aktif_count" />
+                                    <field name="total_pinjaman_aktif" widget="monetary" />
+                                    <button name="action_lihat_pinjaman" string="Lihat Pinjaman"
+                                        type="object" class="oe_link" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Simpanan" name="simpanan">
+                            <field name="simpanan_ids">
+                                <list>
+                                    <field name="jenis_simpanan_id" />
+                                    <field name="saldo" sum="Total" />
+                                    <field name="last_update" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Transaksi Simpanan" name="transaksi_simpanan">
+                            <field name="transaksi_simpanan_ids">
+                                <list>
+                                    <field name="name" />
+                                    <field name="jenis_simpanan_id" />
+                                    <field name="tipe_transaksi" />
+                                    <field name="jumlah" />
+                                    <field name="tanggal_transaksi" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Pinjaman" name="pinjaman">
+                            <field name="pinjaman_ids">
+                                <list>
+                                    <field name="name" />
+                                    <field name="jumlah_pokok" />
+                                    <field name="tenor_bulan" />
+                                    <field name="bunga_per_bulan" />
+                                    <field name="total_pinjaman" />
+                                    <field name="tanggal_pengajuan" />
+                                    <field name="status_pinjaman" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <!-- Anggota Tree View -->
+    <record id="view_koperasi_anggota_tree" model="ir.ui.view">
+        <field name="name">koperasi.anggota.tree</field>
+        <field name="model">koperasi.anggota</field>
+        <field name="arch" type="xml">
+            <list string="Anggota Koperasi" decoration-muted="status_keanggotaan != 'aktif'">
+                <field name="nomor_anggota" />
+                <field name="name" />
+                <field name="nik" />
+                <field name="telepon" />
+                <field name="tanggal_bergabung" />
+                <field name="status_keanggotaan" />
+                <field name="total_simpanan_pokok" sum="Total" widget="monetary" />
+                <field name="total_simpanan_wajib" sum="Total" widget="monetary" />
+                <field name="total_simpanan_sukarela" sum="Total" widget="monetary" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Anggota Search View -->
+    <record id="view_koperasi_anggota_search" model="ir.ui.view">
+        <field name="name">koperasi.anggota.search</field>
+        <field name="model">koperasi.anggota</field>
+        <field name="arch" type="xml">
+            <search string="Cari Anggota">
+                <field name="nomor_anggota" />
+                <field name="name" />
+                <field name="nik" />
+                <field name="telepon" />
+                <field name="email" />
+                <separator />
+                <filter string="Anggota Aktif" name="aktif"
+                    domain="[('status_keanggotaan', '=', 'aktif')]" />
+                <filter string="Anggota Non-Aktif" name="non_aktif"
+                    domain="[('status_keanggotaan', '=', 'non_aktif')]" />
+                <group expand="0" string="Group By">
+                    <filter string="Status Keanggotaan" name="group_by_status" domain="[]"
+                        context="{'group_by': 'status_keanggotaan'}" />
+                    <filter string="Tanggal Bergabung" name="group_by_tanggal_bergabung" domain="[]"
+                        context="{'group_by': 'tanggal_bergabung:month'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Anggota Action -->
+    <record id="action_koperasi_anggota" model="ir.actions.act_window">
+        <field name="name">Anggota</field>
+        <field name="res_model">koperasi.anggota</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_koperasi_anggota_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat anggota pertama Anda
+            </p>
+        </field>
+    </record>
+</odoo>

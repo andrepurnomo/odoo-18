@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Jenis Simpanan Views -->
+    <record id="view_koperasi_jenis_simpanan_form" model="ir.ui.view">
+        <field name="name">koperasi.jenis.simpanan.form</field>
+        <field name="model">koperasi.jenis.simpanan</field>
+        <field name="arch" type="xml">
+            <form string="Jenis Simpanan">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="kode" />
+                        </group>
+                        <group>
+                            <field name="is_required" />
+                            <field name="min_amount" widget="monetary" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Deskripsi">
+                            <field name="deskripsi" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_koperasi_jenis_simpanan_tree" model="ir.ui.view">
+        <field name="name">koperasi.jenis.simpanan.tree</field>
+        <field name="model">koperasi.jenis.simpanan</field>
+        <field name="arch" type="xml">
+            <list string="Jenis Simpanan">
+                <!-- <field name="sequence" widget="handle" /> -->
+                <field name="name" />
+                <field name="kode" />
+                <field name="is_required" />
+                <field name="min_amount" widget="monetary" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_koperasi_jenis_simpanan" model="ir.actions.act_window">
+        <field name="name">Jenis Simpanan</field>
+        <field name="res_model">koperasi.jenis.simpanan</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat jenis simpanan pertama
+            </p>
+        </field>
+    </record>
+
+    <!-- Simpanan Views -->
+    <record id="view_koperasi_simpanan_form" model="ir.ui.view">
+        <field name="name">koperasi.simpanan.form</field>
+        <field name="model">koperasi.simpanan</field>
+        <field name="arch" type="xml">
+            <form string="Simpanan">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_lihat_transaksi" type="object" class="oe_stat_button"
+                            icon="fa-list">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Transaksi</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="anggota_id" />
+                            <field name="jenis_simpanan_id" />
+                        </group>
+                        <group>
+                            <field name="saldo" widget="monetary" />
+                            <field name="last_update" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_koperasi_simpanan_tree" model="ir.ui.view">
+        <field name="name">koperasi.simpanan.tree</field>
+        <field name="model">koperasi.simpanan</field>
+        <field name="arch" type="xml">
+            <list string="Simpanan">
+                <field name="anggota_id" />
+                <field name="jenis_simpanan_id" />
+                <field name="saldo" sum="Total" widget="monetary" />
+                <field name="last_update" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_koperasi_simpanan_search" model="ir.ui.view">
+        <field name="name">koperasi.simpanan.search</field>
+        <field name="model">koperasi.simpanan</field>
+        <field name="arch" type="xml">
+            <search string="Cari Simpanan">
+                <field name="anggota_id" />
+                <field name="jenis_simpanan_id" />
+                <filter string="Simpanan Pokok" name="pokok"
+                    domain="[('jenis_simpanan_id.kode', '=', 'pokok')]" />
+                <filter string="Simpanan Wajib" name="wajib"
+                    domain="[('jenis_simpanan_id.kode', '=', 'wajib')]" />
+                <filter string="Simpanan Sukarela" name="sukarela"
+                    domain="[('jenis_simpanan_id.kode', '=', 'sukarela')]" />
+                <group expand="0" string="Group By">
+                    <filter string="Anggota" name="group_by_anggota" domain="[]"
+                        context="{'group_by':'anggota_id'}" />
+                    <filter string="Jenis Simpanan" name="group_by_jenis" domain="[]"
+                        context="{'group_by':'jenis_simpanan_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_koperasi_simpanan" model="ir.actions.act_window">
+        <field name="name">Simpanan</field>
+        <field name="res_model">koperasi.simpanan</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_koperasi_simpanan_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Simpanan akan muncul di sini
+            </p>
+        </field>
+    </record>
+</odoo>

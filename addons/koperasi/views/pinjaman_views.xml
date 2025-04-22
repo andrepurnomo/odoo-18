@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_pinjaman_form" model="ir.ui.view">
+        <field name="name">koperasi.pinjaman.form</field>
+        <field name="model">koperasi.pinjaman</field>
+        <field name="arch" type="xml">
+            <form string="Pinjaman">
+                <header>
+                    <button name="action_approve" string="Setujui" type="object"
+                        class="oe_highlight" invisible="status_pinjaman != 'pengajuan'" />
+                    <button name="action_reject" string="Tolak" type="object"
+                        invisible="status_pinjaman != 'pengajuan'" />
+                    <button name="action_activate" string="Aktifkan" type="object"
+                        class="oe_highlight" invisible="status_pinjaman != 'disetujui'" />
+                    <button name="action_set_lunas" string="Lunasi" type="object"
+                        invisible="status_pinjaman not in ['aktif', 'menunggak']" />
+                    <field name="status_pinjaman" widget="statusbar"
+                        statusbar_visible="pengajuan,disetujui,aktif,lunas" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="anggota_id"
+                                readonly="status_pinjaman != 'pengajuan'"
+                                invisible="status_pinjaman not in ['pengajuan', 'disetujui', 'aktif']" />
+                            <field name="jumlah_pokok"
+                                readonly="status_pinjaman != 'pengajuan'"
+                                invisible="status_pinjaman not in ['pengajuan', 'disetujui', 'aktif']"
+                                widget="monetary" />
+                            <field name="tenor_bulan"
+                                readonly="status_pinjaman != 'pengajuan'"
+                                invisible="status_pinjaman not in ['pengajuan', 'disetujui', 'aktif']" />
+                            <field name="bunga_per_bulan"
+                                readonly="status_pinjaman != 'pengajuan'"
+                                invisible="status_pinjaman not in ['pengajuan', 'disetujui', 'aktif']" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="tanggal_pengajuan"
+                                invisible="status_pinjaman != 'pengajuan'" />
+                            <field name="tanggal_persetujuan"
+                                invisible="tanggal_persetujuan == False" />
+                            <field name="tanggal_mulai_angsuran"
+                                invisible="tanggal_mulai_angsuran == False" />
+                            <field name="tanggal_jatuh_tempo_lunas"
+                                invisible="tanggal_jatuh_tempo_lunas == False" />
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Detail Pinjaman">
+                            <field name="total_bunga" readonly="1" widget="monetary" />
+                            <field name="total_pinjaman" readonly="1" widget="monetary" />
+                            <field name="angsuran_per_bulan" readonly="1" widget="monetary" />
+                        </group>
+                        <group string="Status Pembayaran"
+                            invisible="status_pinjaman in ['pengajuan', 'ditolak']">
+                            <field name="total_dibayar" readonly="1" widget="monetary" />
+                            <field name="sisa_pinjaman" readonly="1" widget="monetary" />
+                            <field name="angsuran_dibayar" readonly="1" />
+                            <field name="angsuran_tersisa" readonly="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Angsuran"
+                            invisible="status_pinjaman in ['pengajuan', 'ditolak', 'disetujui']">
+                            <field name="angsuran_ids" readonly="1">
+                                <list
+                                    decoration-danger="status_pembayaran == 'belum_bayar' and tanggal_jatuh_tempo &lt; context_today()"
+                                    decoration-success="status_pembayaran == 'sudah_bayar'"
+                                    decoration-warning="status_pembayaran == 'telat_bayar'">
+                                    <field name="angsuran_ke" />
+                                    <field name="jumlah_pokok_angsuran" sum="Total Pokok"
+                                        widget="monetary" />
+                                    <field name="jumlah_bunga_angsuran" sum="Total Bunga"
+                                        widget="monetary" />
+                                    <field name="total_angsuran_bulan" sum="Total Angsuran"
+                                        widget="monetary" />
+                                    <field name="tanggal_jatuh_tempo" />
+                                    <field name="tanggal_pembayaran" />
+                                    <field name="status_pembayaran" />
+                                    <field name="denda" sum="Total Denda" widget="monetary" />
+                                    <field name="jumlah_dibayar" sum="Total Dibayar"
+                                        widget="monetary" />
+                                    <field name="currency_id" column_invisible="1" />
+                                    <button name="action_bayar_angsuran" string="Bayar"
+                                        type="object"
+                                        icon="fa-credit-card"
+                                        invisible="status_pembayaran != 'belum_bayar'" />
+                                    <button name="action_reset" string="Reset" type="object"
+                                        icon="fa-undo"
+                                        invisible="status_pembayaran == 'sudah_bayar'" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Keterangan">
+                            <field name="keterangan" />
+                        </page>
+                        <page string="Alasan Penolakan"
+                            invisible="status_pinjaman != 'ditolak'">
+                            <field name="alasan_penolakan" readonly="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_koperasi_pinjaman_tree" model="ir.ui.view">
+        <field name="name">koperasi.pinjaman.tree</field>
+        <field name="model">koperasi.pinjaman</field>
+        <field name="arch" type="xml">
+            <list string="Pinjaman" decoration-danger="status_pinjaman == 'menunggak'"
+                decoration-success="status_pinjaman == 'lunas'"
+                decoration-warning="status_pinjaman == 'pengajuan'"
+                decoration-info="status_pinjaman == 'disetujui'"
+                decoration-muted="status_pinjaman == 'ditolak'">
+                <field name="name" />
+                <field name="anggota_id" />
+                <field name="jumlah_pokok" widget="monetary" />
+                <field name="tenor_bulan" />
+                <field name="bunga_per_bulan" />
+                <field name="total_pinjaman" widget="monetary" />
+                <field name="sisa_pinjaman" widget="monetary" />
+                <field name="angsuran_per_bulan" widget="monetary" />
+                <field name="tanggal_pengajuan" />
+                <field name="tanggal_mulai_angsuran" />
+                <field name="status_pinjaman" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_koperasi_pinjaman_search" model="ir.ui.view">
+        <field name="name">koperasi.pinjaman.search</field>
+        <field name="model">koperasi.pinjaman</field>
+        <field name="arch" type="xml">
+            <search string="Cari Pinjaman">
+                <field name="name" />
+                <field name="anggota_id" />
+                <separator />
+                <filter string="Pengajuan" name="pengajuan"
+                    domain="[('status_pinjaman', '=', 'pengajuan')]" />
+                <filter string="Disetujui" name="disetujui"
+                    domain="[('status_pinjaman', '=', 'disetujui')]" />
+                <filter string="Ditolak" name="ditolak"
+                    domain="[('status_pinjaman', '=', 'ditolak')]" />
+                <filter string="Aktif" name="aktif" domain="[('status_pinjaman', '=', 'aktif')]" />
+                <filter string="Menunggak" name="menunggak"
+                    domain="[('status_pinjaman', '=', 'menunggak')]" />
+                <filter string="Lunas" name="lunas" domain="[('status_pinjaman', '=', 'lunas')]" />
+                <group expand="0" string="Group By">
+                    <filter string="Anggota" name="group_by_anggota" domain="[]"
+                        context="{'group_by':'anggota_id'}" />
+                    <filter string="Status" name="group_by_status" domain="[]"
+                        context="{'group_by':'status_pinjaman'}" />
+                    <filter string="Tanggal Pengajuan" name="group_by_tanggal" domain="[]"
+                        context="{'group_by':'tanggal_pengajuan'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_koperasi_pinjaman" model="ir.actions.act_window">
+        <field name="name">Pinjaman</field>
+        <field name="res_model">koperasi.pinjaman</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_koperasi_pinjaman_search" />
+        <field name="context">{'search_default_pengajuan': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat pinjaman pertama
+            </p>
+        </field>
+    </record>
+</odoo>

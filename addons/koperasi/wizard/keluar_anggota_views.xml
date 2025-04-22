@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_koperasi_wizard_keluar_anggota_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.keluar.anggota.form</field>
+        <field name="model">koperasi.wizard.keluar.anggota</field>
+        <field name="arch" type="xml">
+            <form string="Keluar Anggota">
+                <sheet>
+                    <div class="alert alert-danger" role="alert"
+                        invisible="not has_active_loans">
+                        <strong>Perhatian!</strong> Anggota ini masih memiliki pinjaman aktif. Harap
+                        lunasi semua pinjaman sebelum melanjutkan proses keluarnya anggota. </div>
+                    <group>
+                        <group>
+                            <field name="anggota_id" invisible="1" />
+                            <field name="tanggal_keluar" />
+                            <field name="has_active_loans" invisible="1" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="total_simpanan_pokok" readonly="1" widget="monetary" />
+                            <field name="total_simpanan_wajib" readonly="1" widget="monetary" />
+                            <field name="total_simpanan_sukarela" readonly="1" widget="monetary" />
+                            <field name="total_pengembalian" readonly="1" widget="monetary" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="alasan_keluar" />
+                    </group>
+                    <footer>
+                        <button name="action_keluar" string="Proses Keluar" type="object"
+                            class="btn-primary"
+                            invisible="has_active_loans" />
+                        <button string="Batal" class="btn-secondary" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

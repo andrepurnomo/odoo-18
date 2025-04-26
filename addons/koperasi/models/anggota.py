@@ -53,6 +53,9 @@ class KoperasiAnggota(models.Model):
     # Untuk otentikasi
     user_id = fields.Many2one('res.users', string='Related User')
 
+    company_id = fields.Many2one("res.company", string="Company",
+                                 default=lambda self: self.env.company)
+
     _sql_constraints = [
         ('nik_unique', 'UNIQUE(nik)', 'NIK harus unik!'),
         ('nomor_anggota_unique', 'UNIQUE(nomor_anggota)', 'Nomor anggota harus unik!')

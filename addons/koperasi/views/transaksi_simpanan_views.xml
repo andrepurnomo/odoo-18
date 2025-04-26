@@ -6,15 +6,10 @@
         <field name="arch" type="xml">
             <form string="Transaksi Simpanan">
                 <header>
-                    <button name="action_confirm" string="Konfirmasi" type="object"
-                        class="oe_highlight" invisible="state != 'draft'" />
-                    <button name="action_cancel" string="Batalkan" type="object"
-                        invisible="state != 'confirmed'"
-                        confirm="Apakah Anda yakin ingin membatalkan transaksi ini?" />
-                    <button name="action_draft" string="Set ke Draft" type="object"
-                        invisible="state != 'cancelled'" />
-                    <field name="state" widget="statusbar"
-                        statusbar_visible="draft,confirmed,cancelled" />
+                    <button name="action_confirm" string="Konfirmasi" type="object" class="oe_highlight" invisible="state != 'draft'" />
+                    <button name="action_cancel" string="Batalkan" type="object" invisible="state != 'confirmed'" confirm="Apakah Anda yakin ingin membatalkan transaksi ini?" />
+                    <button name="action_draft" string="Set ke Draft" type="object" invisible="state != 'cancelled'" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled" />
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -24,10 +19,10 @@
                     </div>
                     <group>
                         <group>
-                            <field name="anggota_id" invisible="state != 'draft'" />
-                            <field name="jenis_simpanan_id" invisible="state != 'draft'" />
-                            <field name="tipe_transaksi" invisible="state != 'draft'" />
-                            <field name="jumlah" invisible="state != 'draft'" widget="monetary" />
+                            <field name="anggota_id" readonly="state != 'draft'" />
+                            <field name="jenis_simpanan_id" readonly="state != 'draft'" />
+                            <field name="tipe_transaksi" readonly="state != 'draft'" />
+                            <field name="jumlah" readonly="state != 'draft'" widget="monetary" />
                         </group>
                         <group>
                             <field name="tanggal_transaksi" invisible="state != 'draft'" />
@@ -51,8 +46,7 @@
         <field name="name">koperasi.transaksi.simpanan.tree</field>
         <field name="model">koperasi.transaksi.simpanan</field>
         <field name="arch" type="xml">
-            <list string="Transaksi Simpanan" decoration-danger="state == 'cancelled'"
-                decoration-success="state == 'confirmed'" decoration-info="state == 'draft'">
+            <list string="Transaksi Simpanan" decoration-danger="state == 'cancelled'" decoration-success="state == 'confirmed'" decoration-info="state == 'draft'">
                 <field name="name" />
                 <field name="anggota_id" />
                 <field name="jenis_simpanan_id" />
@@ -80,23 +74,15 @@
                 <separator />
                 <filter string="Setor" name="setor" domain="[('tipe_transaksi', '=', 'setor')]" />
                 <filter string="Tarik" name="tarik" domain="[('tipe_transaksi', '=', 'tarik')]" />
-                <filter string="Potongan Wajib" name="potongan_wajib"
-                    domain="[('tipe_transaksi', '=', 'potongan_wajib')]" />
-                <filter string="Pendaftaran Pokok" name="pendaftaran_pokok"
-                    domain="[('tipe_transaksi', '=', 'pendaftaran_pokok')]" />
-                <filter string="Pengembalian Keluar" name="pengembalian_keluar"
-                    domain="[('tipe_transaksi', '=', 'pengembalian_keluar')]" />
+                <filter string="Potongan Wajib" name="potongan_wajib" domain="[('tipe_transaksi', '=', 'potongan_wajib')]" />
+                <filter string="Pendaftaran Pokok" name="pendaftaran_pokok" domain="[('tipe_transaksi', '=', 'pendaftaran_pokok')]" />
+                <filter string="Pengembalian Keluar" name="pengembalian_keluar" domain="[('tipe_transaksi', '=', 'pengembalian_keluar')]" />
                 <group expand="0" string="Group By">
-                    <filter string="Anggota" name="group_by_anggota" domain="[]"
-                        context="{'group_by':'anggota_id'}" />
-                    <filter string="Jenis Simpanan" name="group_by_jenis" domain="[]"
-                        context="{'group_by':'jenis_simpanan_id'}" />
-                    <filter string="Tipe Transaksi" name="group_by_tipe" domain="[]"
-                        context="{'group_by':'tipe_transaksi'}" />
-                    <filter string="Status" name="group_by_state" domain="[]"
-                        context="{'group_by':'state'}" />
-                    <filter string="Tanggal" name="group_by_tanggal" domain="[]"
-                        context="{'group_by':'tanggal_transaksi'}" />
+                    <filter string="Anggota" name="group_by_anggota" domain="[]" context="{'group_by':'anggota_id'}" />
+                    <filter string="Jenis Simpanan" name="group_by_jenis" domain="[]" context="{'group_by':'jenis_simpanan_id'}" />
+                    <filter string="Tipe Transaksi" name="group_by_tipe" domain="[]" context="{'group_by':'tipe_transaksi'}" />
+                    <filter string="Status" name="group_by_state" domain="[]" context="{'group_by':'state'}" />
+                    <filter string="Tanggal" name="group_by_tanggal" domain="[]" context="{'group_by':'tanggal_transaksi'}" />
                 </group>
             </search>
         </field>

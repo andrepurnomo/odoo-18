@@ -287,3 +287,62 @@ class KoperasiDashboard(models.Model):
             ],
             'context': {'search_default_group_by_anggota': 1},
         }
+
+    # Additional tax dashboard fields
+    total_pajak_bunga_dipotong = fields.Monetary(
+        string='Total Pajak Bunga Dipotong', compute='_compute_tax_stats', currency_field='currency_id',
+        store=True, precompute=True)
+    total_pajak_bulan_ini = fields.Monetary(
+        string='Total Pajak Bulan Ini', compute='_compute_tax_stats', currency_field='currency_id',
+        store=True, precompute=True)
+    total_bunga_bulan_ini = fields.Monetary(
+        string='Total Bunga Bulan Ini', compute='_compute_tax_stats', currency_field='currency_id',
+        store=True, precompute=True)
+
+    @api.depends()
+    def _compute_tax_stats(self):
+        for record in self:
+            # Current month tax stats
+            today = date.today()
+            first_day_of_month = today.replace(day=1)
+            last_day_of_month = (today.replace(day=1) +
+                                 relativedelta(months=1, days=-1))
+
+            # Calculate taxes for the current month
+            bulan = today.strftime('%m')
+            tahun = today.year
+
+            domain = [
+                ('bulan', '=', bulan),
+                ('tahun', '=', tahun)
+            ]
+
+            pajak_data = self.env['koperasi.pajak.simpanan'].search(domain)
+
+            record.total_pajak_bulan_ini = sum(
+                pajak_data.mapped('jumlah_pajak'))
+            record.total_bunga_bulan_ini = sum(
+                pajak_data.mapped('total_bunga'))
+
+            # Calculate total tax collected all time
+            record.total_pajak_bunga_dipotong = self.env['koperasi.pajak.simpanan'].search(
+                []).mapped('jumlah_pajak')
+
+    # Add actions
+    def action_view_tax_reports(self):
+        return {
+            'name': _('Laporan Pajak Simpanan'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'koperasi.pajak.simpanan',
+            'view_mode': 'list,form',
+            'domain': [],
+        }
+
+    def action_pay_interest(self):
+        return {
+            'name': _('Pembayaran Bunga Simpanan'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'koperasi.wizard.bayar.bunga',
+            'view_mode': 'form',
+            'target': 'new',
+        }

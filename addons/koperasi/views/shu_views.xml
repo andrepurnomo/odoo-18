@@ -8,7 +8,7 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="tahun_buku" />
+                            <field name="tahun_buku" readonly="1" />
                             <field name="currency_id" invisible="1" />
                         </group>
                         <group>
@@ -18,8 +18,7 @@
                         </group>
                     </group>
                     <footer>
-                        <button name="action_print_laporan_shu" string="Print Laporan SHU"
-                            type="object" class="btn-primary" />
+                        <button name="action_print_laporan_shu" string="Print Laporan SHU" type="object" class="btn-primary" />
                         <button string="Batal" class="btn-secondary" special="cancel" />
                     </footer>
                 </sheet>

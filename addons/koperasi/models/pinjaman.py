@@ -60,6 +60,9 @@ class KoperasiPinjaman(models.Model):
     currency_id = fields.Many2one(
         'res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
 
+    company_id = fields.Many2one("res.company", string="Company",
+                                 default=lambda self: self.env.company)
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

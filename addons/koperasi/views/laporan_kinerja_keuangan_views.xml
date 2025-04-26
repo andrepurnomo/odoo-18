@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Laporan Kinerja Keuangan Form View -->
+    <record id="view_koperasi_laporan_kinerja_keuangan_form" model="ir.ui.view">
+        <field name="name">koperasi.laporan.kinerja.keuangan.form</field>
+        <field name="model">koperasi.laporan.kinerja.keuangan</field>
+        <field name="arch" type="xml">
+            <form string="Laporan Kinerja Keuangan">
+                <header>
+                    <button name="action_generate_report" string="Generate Report" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,generated"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_view_simpanan" type="object" icon="fa-money" invisible="state == 'draft'">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_simpanan" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Simpanan
+                                </span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" name="action_view_pinjaman" type="object" icon="fa-credit-card" invisible="state == 'draft'">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_pinjaman_aktif" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Pinjaman
+                                </span>
+                            </div>
+                        </button>
+                        <!-- <button class="oe_stat_button" name="action_view_pajak_simpanan" type="object" icon="fa-bars" invisible="state == 'draft' or pajak_simpanan_amount == 0">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="pajak_simpanan_amount" widget="monetary"/>
+                                </span>
+                                <span class="o_stat_text">
+                                    Pajak Simpanan
+                                </span>
+                            </div>
+                        </button> -->
+                    </div>
+                    <div>
+                        <h1 style="font-size: 1.9rem;">
+                            <div class="row">
+                                <div class="col col-md-8">
+                                    <field name="name" placeholder="Nama Laporan" readonly="state == 'generated'"/>
+                                </div>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="tanggal_laporan" readonly="state == 'generated'"/>
+                            <field name="tanggal_mulai" readonly="state == 'generated'"/>
+                            <field name="tanggal_akhir" readonly="state == 'generated'"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="include_comparison" readonly="state == 'generated'"/>
+                            <field name="tanggal_mulai_komparasi" invisible="include_comparison == False" required="include_comparison == True" readonly="state == 'generated'"/>
+                            <field name="tanggal_akhir_komparasi" invisible="include_comparison == False" required="include_comparison == True" readonly="state == 'generated'"/>
+                        </group>
+                    </group>
+
+                    <notebook invisible="state == 'draft'">
+                        <page name="ringkasan" string="Ringkasan">
+                            <group>
+                                <group string="Statistik Simpanan">
+                                    <field name="total_simpanan_pokok" widget="monetary" readonly="1"/>
+                                    <field name="total_simpanan_wajib" widget="monetary" readonly="1"/>
+                                    <field name="total_simpanan_sukarela" widget="monetary" readonly="1"/>
+                                    <field name="simpanan_growth" invisible="include_comparison == False" widget="percentage" readonly="1"/>
+                                </group>
+                                <group string="Statistik Transaksi">
+                                    <field name="total_setoran" widget="monetary" readonly="1"/>
+                                    <field name="total_penarikan" widget="monetary" readonly="1"/>
+                                    <field name="net_cash_flow_simpanan" widget="monetary" readonly="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Statistik Pinjaman">
+                                    <field name="total_pinjaman_baru" widget="monetary" readonly="1"/>
+                                    <field name="total_pelunasan" widget="monetary" readonly="1"/>
+                                    <field name="pinjaman_growth" invisible="include_comparison == False" widget="percentage" readonly="1"/>
+                                </group>
+                                <group string="Statistik Angsuran">
+                                    <field name="total_angsuran_diterima" widget="monetary" readonly="1"/>
+                                    <field name="total_pokok_diterima" widget="monetary" readonly="1"/>
+                                    <field name="total_bunga_diterima" widget="monetary" readonly="1"/>
+                                    <field name="bunga_growth" invisible="include_comparison == False" widget="percentage" readonly="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Indikator Kinerja">
+                                    <field name="jumlah_anggota_aktif" readonly="1"/>
+                                    <field name="jumlah_pinjaman_aktif" readonly="1"/>
+                                    <field name="jumlah_pinjaman_bermasalah" readonly="1"/>
+                                    <field name="rasio_pinjaman_bermasalah" widget="percentage" readonly="1"/>
+                                </group>
+                                <group string="Perbandingan" invisible="include_comparison == False">
+                                    <field name="comp_total_simpanan" widget="monetary" readonly="1"/>
+                                    <field name="comp_total_pinjaman_aktif" widget="monetary" readonly="1"/>
+                                    <field name="comp_total_bunga_diterima" widget="monetary" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Laporan Kinerja Keuangan List View (changed from tree to list) -->
+    <record id="view_koperasi_laporan_kinerja_keuangan_list" model="ir.ui.view">
+        <field name="name">koperasi.laporan.kinerja.keuangan.list</field>
+        <field name="model">koperasi.laporan.kinerja.keuangan</field>
+        <field name="arch" type="xml">
+            <list string="Laporan Kinerja Keuangan" editable="top" open_form_view="True">
+                <field name="name"/>
+                <field name="tanggal_laporan"/>
+                <field name="tanggal_mulai"/>
+                <field name="tanggal_akhir"/>
+                <field name="total_simpanan" widget="monetary"/>
+                <field name="total_pinjaman_aktif" widget="monetary"/>
+                <field name="total_bunga_diterima" widget="monetary"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Laporan Kinerja Keuangan Kanban View (new) -->
+    <record id="view_koperasi_laporan_kinerja_keuangan_kanban" model="ir.ui.view">
+        <field name="name">koperasi.laporan.kinerja.keuangan.kanban</field>
+        <field name="model">koperasi.laporan.kinerja.keuangan</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="card">
+                        <div class="row">
+                            <div class="col-8">
+                                <field class="fw-bolder" name="name"/>
+                            </div>
+                            <div class="col-4 text-end">
+                                <field class="badge rounded-pill" name="state"/>
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Periode: </strong>
+                            <field name="tanggal_mulai"/>
+ -                            <field name="tanggal_akhir"/>
+                        </div>
+                        <div>
+                            <strong>Total Simpanan: </strong>
+                            <field name="total_simpanan" widget="monetary"/>
+                        </div>
+                        <div>
+                            <strong>Total Pinjaman: </strong>
+                            <field name="total_pinjaman_aktif" widget="monetary"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Laporan Kinerja Keuangan Search View (enhanced) -->
+    <record id="view_koperasi_laporan_kinerja_keuangan_search" model="ir.ui.view">
+        <field name="name">koperasi.laporan.kinerja.keuangan.search</field>
+        <field name="model">koperasi.laporan.kinerja.keuangan</field>
+        <field name="arch" type="xml">
+            <search string="Laporan Kinerja Keuangan">
+                <field name="name" filter_domain="[('name', 'ilike', self)]" string="Nama Laporan"/>
+                <field name="tanggal_laporan"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Generated" name="generated" domain="[('state', '=', 'generated')]"/>
+                <separator/>
+                <filter string="Current Year" name="current_year" domain="[('tanggal_laporan','>=',time.strftime('%Y-01-01'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="status" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="Bulan" name="month" domain="[]" context="{'group_by':'tanggal_laporan:month'}"/>
+                </group>
+                <searchpanel class="koperasi_laporan w-auto">
+                    <field name="state" icon="fa-filter" limit="0" />
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- Laporan Kinerja Keuangan Wizard View -->
+    <record id="view_koperasi_wizard_laporan_kinerja_keuangan_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.laporan.kinerja.keuangan.form</field>
+        <field name="model">koperasi.wizard.laporan.kinerja.keuangan</field>
+        <field name="arch" type="xml">
+            <form string="Buat Laporan Kinerja Keuangan">
+                <sheet>
+                    <div>
+                        <h1 style="font-size: 1.5rem;">
+                            <field name="name" placeholder="Nama Laporan"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="period_type"/>
+                            <field name="tanggal_mulai" readonly="period_type != 'custom'"/>
+                            <field name="tanggal_akhir" readonly="period_type != 'custom'"/>
+                        </group>
+                        <group>
+                            <field name="include_comparison"/>
+                            <field name="comparison_period_type" invisible="include_comparison == False" required="include_comparison == True"/>
+                            <field name="tanggal_mulai_komparasi" invisible="include_comparison == False or comparison_period_type != 'custom'" required="include_comparison == True and comparison_period_type == 'custom'"/>
+                            <field name="tanggal_akhir_komparasi" invisible="include_comparison == False or comparison_period_type != 'custom'" required="include_comparison == True and comparison_period_type == 'custom'"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate_report" string="Generate Report" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_koperasi_laporan_kinerja_keuangan" model="ir.actions.act_window">
+        <field name="name">Laporan Kinerja Keuangan</field>
+        <field name="res_model">koperasi.laporan.kinerja.keuangan</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_koperasi_laporan_kinerja_keuangan_search"/>
+        <field name="view_id" ref="view_koperasi_laporan_kinerja_keuangan_list"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat laporan kinerja keuangan baru
+            </p>
+            <p>
+                Laporan Kinerja Keuangan memberikan gambaran menyeluruh tentang
+                kinerja koperasi dalam periode tertentu, termasuk statistik
+                simpanan, pinjaman, dan indikator kinerja lainnya.
+            </p>
+        </field>
+        <field name="context">{'search_default_current_year': True}</field>
+    </record>
+
+    <record id="action_koperasi_wizard_laporan_kinerja_keuangan" model="ir.actions.act_window">
+        <field name="name">Buat Laporan Kinerja Keuangan</field>
+        <field name="res_model">koperasi.wizard.laporan.kinerja.keuangan</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_koperasi_laporan_kinerja_keuangan" name="Laporan Kinerja Keuangan" parent="menu_koperasi_laporan" action="action_koperasi_wizard_laporan_kinerja_keuangan" sequence="6" />
+</odoo>

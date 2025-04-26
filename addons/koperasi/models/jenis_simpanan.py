@@ -21,6 +21,9 @@ class KoperasiJenisSimpanan(models.Model):
     currency_id = fields.Many2one(
         'res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
 
+    company_id = fields.Many2one("res.company", string="Company",
+                                 default=lambda self: self.env.company)
+
     _sql_constraints = [
         ('kode_unique', 'UNIQUE(kode)', 'Kode jenis simpanan harus unik!')
     ]

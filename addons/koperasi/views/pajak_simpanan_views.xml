@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tax Record Form View -->
+    <record id="view_koperasi_pajak_simpanan_form" model="ir.ui.view">
+        <field name="name">koperasi.pajak.simpanan.form</field>
+        <field name="model">koperasi.pajak.simpanan</field>
+        <field name="arch" type="xml">
+            <form string="Bukti Potong Pajak">
+                <header>
+                    <button name="action_potong_pajak" string="Potong Pajak" type="object" class="oe_highlight" invisible="status != 'draft'"/>
+                    <button name="action_setor_pajak" string="Setor Pajak" type="object" class="oe_highlight" invisible="status != 'potong'"/>
+                    <button name="action_lapor_pajak" string="Lapor Pajak" type="object" class="oe_highlight" invisible="status != 'setor'"/>
+                    <button name="action_reset_to_draft" string="Reset ke Draft" type="object" invisible="status == 'draft'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,potong,setor,lapor"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 style="font-size: 1.9rem;">
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="anggota_id"/>
+                            <field name="bulan"/>
+                            <field name="tahun"/>
+                            <field name="tanggal_pemotongan"/>
+                            <field name="tanggal_lapor" invisible="status != 'lapor'"/>
+                        </group>
+                        <group>
+                            <field name="total_bunga"/>
+                            <field name="batas_bebas_pajak"/>
+                            <field name="bunga_kena_pajak"/>
+                            <field name="tarif_pajak"/>
+                            <field name="jumlah_pajak"/>
+                            <field name="currency_id" invisible="1" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <!-- Chatter -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tax Record list View -->
+    <record id="view_koperasi_pajak_simpanan_list" model="ir.ui.view">
+        <field name="name">koperasi.pajak.simpanan.list</field>
+        <field name="model">koperasi.pajak.simpanan</field>
+        <field name="arch" type="xml">
+            <list string="Bukti Potong Pajak" editable="top" open_form_view="True">
+                <field name="name"/>
+                <field name="anggota_id"/>
+                <field name="bulan"/>
+                <field name="tahun"/>
+                <field name="total_bunga" sum="Total"/>
+                <field name="bunga_kena_pajak" sum="Total"/>
+                <field name="jumlah_pajak" sum="Total"/>
+                <field name="tanggal_pemotongan"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Tax Record Search View -->
+    <record id="view_koperasi_pajak_simpanan_search" model="ir.ui.view">
+        <field name="name">koperasi.pajak.simpanan.search</field>
+        <field name="model">koperasi.pajak.simpanan</field>
+        <field name="arch" type="xml">
+            <search string="Cari Bukti Potong Pajak">
+                <field name="name" filter_domain="[('name', 'ilike', self)]" string="Bukti Potong"/>
+                <field name="anggota_id"/>
+                <field name="bulan"/>
+                <field name="tahun"/>
+                <separator/>
+                <filter string="Draft" name="filter_draft" domain="[('status', '=', 'draft')]"/>
+                <filter string="Dipotong" name="filter_potong" domain="[('status', '=', 'potong')]"/>
+                <filter string="Disetor" name="filter_setor" domain="[('status', '=', 'setor')]"/>
+                <filter string="Dilaporkan" name="filter_lapor" domain="[('status', '=', 'lapor')]"/>
+                <separator/>
+                <filter string="Bulan Ini" name="filter_month" domain="[('bulan', '=', context_today().strftime('%m')), 
+                                ('tahun', '=', context_today().year)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_by_status" domain="" context="{'group_by': 'status'}"/>
+                    <filter string="Bulan" name="group_by_bulan" domain="" context="{'group_by': 'bulan'}"/>
+                    <filter string="Tahun" name="group_by_tahun" domain="" context="{'group_by': 'tahun'}"/>
+                    <filter string="Anggota" name="group_by_anggota" domain="" context="{'group_by': 'anggota_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Interest Payment Wizard Form -->
+    <record id="view_koperasi_wizard_bayar_bunga_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.bayar.bunga.form</field>
+        <field name="model">koperasi.wizard.bayar.bunga</field>
+        <field name="arch" type="xml">
+            <form string="Pembayaran Bunga Simpanan">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tanggal_transaksi"/>
+                            <field name="bulan"/>
+                            <field name="tahun"/>
+                        </group>
+                        <group>
+                            <field name="jenis_simpanan_id"/>
+                            <field name="suku_bunga"/>
+                        </group>
+                    </group>
+                    <field name="keterangan"/>
+                    <notebook invisible="line_ids == []">
+                        <page string="Detail Bunga Anggota">
+                            <field name="line_ids" readonly="1">
+                                <list readonly="1">
+                                    <field name="include_payment"/>
+                                    <field name="anggota_id"/>
+                                    <field name="saldo_simpanan"/>
+                                    <field name="bunga_bulanan"/>
+                                    <field name="kena_pajak"/>
+                                    <field name="jumlah_pajak"/>
+                                    <field name="jumlah_setelah_pajak"/>
+                                    <field name="currency_id" column_invisible="1" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="generate_bunga_lines" string="Hitung Bunga" type="object" class="btn-primary" invisible="line_ids.length > 0"/>
+                    <button name="process_bunga_payments" string="Proses Pembayaran" type="object" class="btn-primary" invisible="line_ids.length == 0"/>
+                    <button string="Batal" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tax Report Wizard Form -->
+    <record id="view_koperasi_wizard_laporan_pajak_form" model="ir.ui.view">
+        <field name="name">koperasi.wizard.laporan.pajak.form</field>
+        <field name="model">koperasi.wizard.laporan.pajak</field>
+        <field name="arch" type="xml">
+            <form string="Laporan Pajak Simpanan">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="bulan"/>
+                            <field name="tahun"/>
+                            <field name="tanggal_lapor"/>
+                        </group>
+                        <group>
+                            <field name="total_bunga"/>
+                            <field name="total_pajak"/>
+                            <field name="currency_id" invisible="1" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook invisible="pajak_ids == []">
+                        <page name="detail_pajak" string="Detail Pajak">
+                            <field name="pajak_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="anggota_id"/>
+                                    <field name="total_bunga"/>
+                                    <field name="bunga_kena_pajak"/>
+                                    <field name="jumlah_pajak"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_lapor_pajak" string="Lapor Pajak" type="object" class="btn-primary" invisible="pajak_ids == []"/>
+                    <button name="action_cetak_laporan" string="Cetak Laporan" type="object" class="btn-primary" invisible="pajak_ids == []"/>
+                    <button string="Tutup" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Actions -->
+    <record id="action_koperasi_pajak_simpanan" model="ir.actions.act_window">
+        <field name="name">Pajak Simpanan</field>
+        <field name="res_model">koperasi.pajak.simpanan</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_filter_month': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat bukti potong pajak simpanan baru
+            </p>
+        </field>
+    </record>
+
+    <record id="action_koperasi_wizard_bayar_bunga" model="ir.actions.act_window">
+        <field name="name">Pembayaran Bunga</field>
+        <field name="res_model">koperasi.wizard.bayar.bunga</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_koperasi_wizard_laporan_pajak" model="ir.actions.act_window">
+        <field name="name">Laporan Pajak</field>
+        <field name="res_model">koperasi.wizard.laporan.pajak</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_koperasi_pajak" name="Pajak" parent="menu_koperasi_root" sequence="40"/>
+    <menuitem id="menu_koperasi_pajak_simpanan" name="Bukti Potong Pajak" parent="menu_koperasi_pajak" action="action_koperasi_pajak_simpanan" sequence="10"/>
+    <menuitem id="menu_koperasi_wizard_bayar_bunga" name="Pembayaran Bunga" parent="menu_koperasi_pajak" action="action_koperasi_wizard_bayar_bunga" sequence="20"/>
+    <menuitem id="menu_koperasi_wizard_laporan_pajak" name="Laporan Pajak" parent="menu_koperasi_pajak" action="action_koperasi_wizard_laporan_pajak" sequence="30"/>
+</odoo>

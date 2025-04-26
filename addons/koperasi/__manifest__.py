@@ -37,6 +37,8 @@
         'wizard/mulai_angsuran_views.xml',
         'wizard/lunasi_pinjaman_views.xml',
         'wizard/keluar_anggota_views.xml',
+        'views/laporan_kinerja_keuangan_views.xml',
+        'views/pajak_simpanan_views.xml',
     ],
     'demo': [
         'data/koperasi_demo_data.xml',

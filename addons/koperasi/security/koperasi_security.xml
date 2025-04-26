@@ -7,7 +7,7 @@
             <field name="description">Kategori untuk modul koperasi</field>
             <field name="sequence">10</field>
         </record>
-        
+
         <!-- Grup pengguna koperasi -->
         <record id="group_koperasi_user" model="res.groups">
             <field name="name">User</field>
@@ -15,7 +15,7 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
             <field name="comment">Pengguna dapat melihat data koperasi</field>
         </record>
-        
+
         <!-- Grup anggota koperasi -->
         <record id="group_koperasi_anggota" model="res.groups">
             <field name="name">Anggota</field>
@@ -23,7 +23,7 @@
             <field name="implied_ids" eval="[(4, ref('group_koperasi_user'))]"/>
             <field name="comment">Anggota koperasi dapat melihat data pribadi dan mengajukan pinjaman</field>
         </record>
-        
+
         <!-- Grup pengurus koperasi -->
         <record id="group_koperasi_pengurus" model="res.groups">
             <field name="name">Pengurus</field>
@@ -31,7 +31,7 @@
             <field name="implied_ids" eval="[(4, ref('group_koperasi_user'))]"/>
             <field name="comment">Pengurus dapat mengelola data anggota, simpanan, dan pinjaman</field>
         </record>
-        
+
         <!-- Grup admin koperasi -->
         <record id="group_koperasi_admin" model="res.groups">
             <field name="name">Administrator</field>
@@ -40,7 +40,14 @@
             <field name="users" eval="[(4, ref('base.user_admin'))]"/>
             <field name="comment">Administrator memiliki akses penuh ke semua fitur koperasi</field>
         </record>
-        
+
+        <!-- Grup manager koperasi -->
+        <record id="group_koperasi_manager" model="res.groups">
+            <field name="name">Koperasi / Manager</field>
+            <field name="category_id" ref="base.module_category_accounting_accounting"/>
+            <field name="implied_ids" eval="[(4, ref('group_koperasi_pengurus'))]"/>
+        </record>
+
         <!-- Aturan akses data anggota -->
         <record id="rule_koperasi_anggota_user" model="ir.rule">
             <field name="name">Anggota: akses data pribadi</field>
@@ -52,7 +59,7 @@
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
-        
+
         <!-- Aturan akses pengurus -->
         <record id="rule_koperasi_anggota_pengurus" model="ir.rule">
             <field name="name">Pengurus: akses semua anggota</field>

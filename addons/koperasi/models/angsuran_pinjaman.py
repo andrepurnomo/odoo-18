@@ -37,6 +37,9 @@ class KoperasiAngsuranPinjaman(models.Model):
     currency_id = fields.Many2one(
         'res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
 
+    company_id = fields.Many2one("res.company", string="Company",
+                                 default=lambda self: self.env.company)
+
     @api.depends('jumlah_pokok_angsuran', 'jumlah_bunga_angsuran', 'denda')
     def _compute_total_angsuran(self):
         for angsuran in self:
